@@ -36,9 +36,9 @@ class factory{
         if (norm == "mst" || norm == "kruskal")
             return std::make_unique<kruskalMST>();
 
-        // חשוב: אל תישאר בלי return → זרוק חריגה
         throw std::invalid_argument("Unknown strategy: " + name);
     }
+
 
 
 
