@@ -37,25 +37,22 @@ class fordFulkerson:public stradegy{
     vector<std::vector<int>> graphToVec(Graph& g){   
 
     // std::vector<std::vector<int>> convertGraphToAdjMatrix(const graph::Graph& g) {
-    int n = g.getNumVertices();  // מספר הצמתים בגרף
-    std::vector<std::vector<int>> cap(n, std::vector<int>(n, 0));  // אתחול מטריצה בגודל n*n עם כל הערכים ב-0
+    int n = g.getNumVertices();  
+    std::vector<std::vector<int>> cap(n, std::vector<int>(n, 0));  
 
-    // עוברים על כל הצמתים
+   
     for (int i = 0; i < n; ++i) {
-        // מקבלים את רשימת השכנות של הצומת i
+       
         graph::Neighbor** adjList = g.getAdjList();
         graph::Neighbor* neighbor = adjList[i];
 
-        // עוברים על כל השכנים של הצומת i
         while (neighbor) {
-            int j = neighbor->vertex;  // הצומת השכן
-            int weight = neighbor->weight;  // המשקל של הקשת
+            int j = neighbor->vertex;  
+            int weight = neighbor->weight;  
 
-            // ממלאים את המטריצה עם המשקל של הקשת בשני כיוונים, כי הגרף לא מכוון
             cap[i][j] = weight;
             cap[j][i] = weight;
 
-            // ממשיכים לשכן הבא
             neighbor = neighbor->next;
         }
     
@@ -101,9 +98,6 @@ class kruskalMST:public stradegy{
         }
     }
 
-  
-
-    // ייתכן שאצלך יש operator< ל-Edge; אם לא, נסדר מיון לפי weight לפני הקריאה (kruskalMST ממיין שוב).
     int mstWeight = Algorithms::kruskalMST(end, edges);
     return to_string(mstWeight);
     
