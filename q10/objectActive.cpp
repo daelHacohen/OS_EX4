@@ -13,7 +13,7 @@
 using namespace std;
 
 
-class MaxFlowStage; class MaxCliqueStage; class MstStage; class EulerStage; // קדימה-הכרזה
+class MaxFlowStage; class MaxCliqueStage; class MstStage; class EulerStage; 
 factory f;
 
 string calculate(string name, Graph& g,int start,int end){
@@ -26,7 +26,6 @@ string calculate(string name, Graph& g,int start,int end){
     // delete action;
     return ans;
       } catch (const std::exception& ex) {
-        // תחזיר הודעת שגיאה ללקוח במקום להפיל את השרת
         return std::string("error: ") + ex.what();
     }
 }
@@ -92,7 +91,6 @@ string calculate(string name, Graph& g,int start,int end){
         ReqPtr r;
         while(q.pop(r)){
             r->answer += "MST: " + calculate("MST",*r->g,r->R,r->V) + "\n";
-            // שליחה ללקוח וסגירה:
             if (!r->answer.empty() && r->answer.back()!='\n') r->answer.push_back('\n');
             // send_all_and_close(r->client_fd, r->answer);
               if (send(r->client_fd, r->answer.c_str(), r->answer.size(), 0) == -1) {
