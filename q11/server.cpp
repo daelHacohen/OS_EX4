@@ -40,7 +40,7 @@ using namespace std;
 static std::atomic<int> accepted_count{0};
 static std::atomic<bool> shutting_down{false};
 
-// יצירת השלבים
+
 static EulerStage      ST_euler;
 static MaxFlowStage    ST_maxflow;
 static MaxCliqueStage  ST_maxclique;
