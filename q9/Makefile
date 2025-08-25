@@ -59,21 +59,19 @@ ARGS ?=
 # ===== Valgrind targets =====
 .PHONY: memcheck helgrind callgrind annotate
 
-# בדיקת דליפות זיכרון
 memcheck: server
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
 	 --num-callers=25 --log-file=valgrind.%p.log ./server
 
-# בדיקת מרוצים/בעיות תזמון בחוטים (threads)
+
 helgrind: server
 	valgrind --tool=helgrind --history-level=approx \
 	 --log-file=helgrind.%p.log ./server
 
-# פרופיילר של קריאות פונקציה (Callgrind)
+
 callgrind: server
 	valgrind --tool=callgrind --callgrind-out-file=callgrind.out ./server
 
-# אנוטציה נוחה לפלט של Callgrind
 annotate: callgrind
 	callgrind_annotate callgrind.out | less
 
