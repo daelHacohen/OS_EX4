@@ -1,4 +1,3 @@
-//dael12345@gmail.com
 #include "UnionFind.hpp"
 
 namespace graph {
