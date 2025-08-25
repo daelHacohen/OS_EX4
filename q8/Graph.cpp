@@ -211,9 +211,9 @@ bool Graph::isInside(set<pair<int,int>>used_pairs,int a, int b ){
     Graph Graph::generateRandomGraph (int v , int e){
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> dist(0, v-1); // טווח המספרים
+    uniform_int_distribution<> dist(0, v-1); 
 
-    set<pair<int,int>> used_pairs; // סט לשמירת זוגות שכבר הופיעו
+    set<pair<int,int>> used_pairs; 
 
     while(static_cast<int>(used_pairs.size())<e)
     {
