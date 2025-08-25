@@ -39,7 +39,6 @@ using namespace std;
 
 
 
-// יצירת השלבים
 static EulerStage      ST_euler;
 static MaxFlowStage    ST_maxflow;
 static MaxCliqueStage  ST_maxclique;
@@ -66,14 +65,6 @@ static void stop_pipeline(){
 }
 
 
-// string calculate(string name, Graph& g,int start,int end){
-//     factory f;
-//     stradegy* action=f.create(name);
-//     return action->run(g,start,end);
-    
-    
-// }
-
 
 static int server_sock = -1;
 static std::mutex m;
@@ -83,22 +74,20 @@ static bool stop = false;
 
 static void worker_loop(int tid) {
     while(!stop) {
-        // --- להפוך למנהיג: להמתין עד שאין מנהיג פעיל ---
         {
             std::unique_lock<std::mutex> lock(m);
             cv.wait(lock, [] {return !leader_present;});
-            leader_present = true; // אני המנהיג כרגע
+            leader_present = true;
         }
 
-        // --- המנהיג ממתין לקליינט חדש ---
+     
         sockaddr_in cli{}; socklen_t clilen = sizeof(cli);
         int client_fd = ::accept(server_sock, (sockaddr*)&cli, &clilen);
         if (client_fd < 0) {
-            // שחרור הנהגה כדי שלא ניתקע
             {
                 std::lock_guard<std::mutex> lk(m);
                 leader_present = false;
-                cv.notify_one(); // קדם מנהיג חדש
+                cv.notify_one();
             }
             if (errno == EINTR) continue;
             perror("accept");
@@ -106,14 +95,12 @@ static void worker_loop(int tid) {
         }
        
 
-        // --- לקדם מנהיג חדש ולרדת להיות Worker ---
         {
             std::lock_guard<std::mutex> lk(m);
-            leader_present = false; // מפנה תפקיד
-            cv.notify_all();        // מעיר Follower – יהיה המנהיג הבא
+            leader_present = false; 
+            cv.notify_all();        
         }
 
-        // ====== טיפול בלקוח ======
 
     cout<<"the current client_fd is: "<< client_fd <<endl;
     char buffer[1024];
@@ -147,21 +134,8 @@ static void worker_loop(int tid) {
     req->g = g_rw;
     req->answer = "RESULTS:\n";
 
-    // דוחפים לפייפליין
     ST_euler.post(std::move(req));
     
-    
-    // ::close(client_fd);   // סוגר את החיבור ללקוח
-
-    // if (shutting_down.load()) {
-    // return; // מסיים את ה-thread אם כבר התחלנו לכבות
-    // }
-    // stop_pipeline();
-    //::close(server_sock);
-    
-    
-
-
    
  }
 }
@@ -206,12 +180,11 @@ int main() {
 
      // הפעלת Thread-Pool
     const unsigned hw = std::thread::hardware_concurrency();
-    const int N = hw ? int(hw) : 4;         // לפחות 4 ת’רדים לנוחות
+    const int N = hw ? int(hw) : 4;       
     std::vector<std::thread> pool;
     pool.reserve(N);
     for (int i = 0; i < N; ++i) pool.emplace_back(worker_loop, i);
 
-    // מנהיג ראשון
     {
         std::lock_guard<std::mutex> lk(m);
         leader_present = false;
