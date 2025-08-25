@@ -11,10 +11,10 @@ CLIENT_SRC := client.cpp $(SRC_COMMON)
 OBJS_SERVER := $(SERVER_SRC:.cpp=.o)
 OBJS_CLIENT := $(CLIENT_SRC:.cpp=.o)
 
-# קבצים שעליהם מפיקים gcov בלבד (רק הקוד שלך)
+
 GCOV_SOURCES := server.cpp client.cpp Algorithms.cpp Graph.cpp UnionFind.cpp objectActive.cpp
 
-# אם צריך פרמטרים להרצה – תעדכן פה:
+
 RUN_ARGS_SERVER :=
 RUN_ARGS_CLIENT :=
 
@@ -32,7 +32,7 @@ client: $(OBJS_CLIENT)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# ===== Runs (כדי לייצר *.gcda) =====
+# ===== Runs ( *.gcda) =====
 run: run-server run-client
 
 run-server: server
@@ -43,7 +43,7 @@ run-client: client
 	@echo ">>> Running client $(RUN_ARGS_CLIENT)"
 	-./client $(RUN_ARGS_CLIENT)
 
-# ===== GCOV coverage (רק לקבצים שלך, בלי מערכת) =====
+# ===== GCOV coverage =====
 coverage: clean_gcov all run
 	@mkdir -p coverage_gcov
 	@echo ">>> Generating gcov reports ONLY for your sources..."
@@ -54,7 +54,7 @@ coverage: clean_gcov all run
 	@mv -f *.gcov coverage_gcov/ 2>/dev/null || true
 	@echo ">>> Done. Open coverage_gcov/ for the reports."
 
-# דוחות נפרדים אם תרצה
+
 coverage-server: clean_gcov server run-server
 	@mkdir -p coverage_gcov
 	@for src in server.cpp $(SRC_COMMON); do \
