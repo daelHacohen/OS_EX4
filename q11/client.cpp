@@ -9,7 +9,6 @@ int main() {
     int sock = 0;
     sockaddr_in serv_addr;
 
-    // יצירת socket
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
         perror("socket failed");
@@ -19,13 +18,11 @@ int main() {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(8080); 
 
-    // המרה של כתובת IP
     if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
         perror("Invalid address");
         return 1;
     }
 
-    // התחברות לשרת
     if (connect(sock, (sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
         perror("Connection failed");
         return 1;
@@ -78,7 +75,7 @@ int main() {
         return -1;
     }
 
-    buffer[recv_len] = '\0';  // סיום המיתר עם NULL
+    buffer[recv_len] = '\0'; 
     cout << "the massege from the server:\n " << buffer << endl;
 }
 // }
