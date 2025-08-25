@@ -1,4 +1,3 @@
-// objectActive.hpp (רק הצהרות)
 class MaxCliqueStage; class MstStage; class MaxFlowStage;
 class EulerStage {
 public:
@@ -7,7 +6,7 @@ public:
     void stop();
     void set_next(MaxFlowStage* n);
 private:
-    void run();            // רק הצהרה
+    void run();           
     MaxFlowStage* next;
     TSQueue<ReqPtr> q;
     std::thread th;
@@ -21,8 +20,8 @@ public:
     void stop();
     void set_next(MaxCliqueStage* n);
 private:
-    void run();            // רק הצהרה
-    MaxCliqueStage* next;  // מותר; מצביע למחלקה קדימה-מוצהרת
+    void run();           
+    MaxCliqueStage* next;  
     TSQueue<ReqPtr> q;
     std::thread th;
     std::atomic<bool> started{false};
@@ -35,7 +34,7 @@ public:
     void stop();
     void set_next(MstStage* n);
 private:
-    void run();            // רק הצהרה
+    void run();           
     MstStage* next;
     TSQueue<ReqPtr> q;
     std::thread th;
@@ -48,7 +47,7 @@ public:
     void post(ReqPtr r);
     void stop();
 private:
-    void run();            // רק הצהרה
+    void run();           
     TSQueue<ReqPtr> q;
     std::thread th;
     std::atomic<bool> started{false};
