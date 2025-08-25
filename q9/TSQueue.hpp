@@ -11,9 +11,9 @@
 struct Request {
     int client_fd;
     uint64_t job_id;
-    int V, R; // R = root/כל פרמטר שאתה רוצה לאEuler
-    std::shared_ptr<graph::Graph> g; // מצביע בר-שיתוף/קריאה בלבד
-    std::string answer;                    // מצטבר לאורך הפייפליין
+    int V, R; 
+    std::shared_ptr<graph::Graph> g; 
+    std::string answer;                   
 };
 using ReqPtr = std::shared_ptr<Request>;
 
